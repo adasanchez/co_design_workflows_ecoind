@@ -1,2 +1,28 @@
-# co_design_workflows_ecoind
-Results from the workshop Shaping the Workflow: Co-designing Ecosystem Indicators
+# Shaping the Workflow: Co-designing Ecosystem Indicators
+
+## Context
+
+This workshop is designed as a co design exercise to gather structured feedback from a heterogeneous, multidisciplinary community of end users, including ecologists, data analysts, coders, and software engineers, on a demo workflow for ecosystem indicator development. This is the firts of a serie of co-design workshop for the Ecosystem Indicators Workflows (EIW) project to make sure the workflow are build in a way that reflects how people actually work, increasing their usability.
+
+The workflow follows the FAIR principles (Findable, Accessible, Interoperable, Reusable) and supports key applications such as ecosystem risk assessment, ecosystem accounting, and the IUCN Green Status. Given the diversity of expertise, institutions, and working practices among users, the workshop aimeds to understand how people interact with the workflow in practice, where friction occurs, and what types of support and collaboration mechanisms are needed to improve usability and adoption.
+
+### Workshop aims
+The primary aims of the workshop are to:
+•	Understand how users with different disciplinary backgrounds and skill levels interact with each stage of the workflow.
+•	Identify opportunities and barriers across the indicator development process.
+•	Clarify support needs, including documentation, training, troubleshooting, and peer support.
+•	Explore ways to strengthen collaboration and knowledge exchange within the user community.
+•	Generate concrete, user driven insights to improve the usability, clarity, inclusivity, and FAIRness of the workflow.
+
+### Expected outcomes
+The workshop is expected to deliver:
+•	A clear picture of user needs, pain points, and motivations across disciplines.
+•	Insights into which workflow stages are intuitive and which are challenging.
+•	A prioritised set of support mechanisms (e.g. documentation, training, peer exchange, troubleshooting).
+•	Ideas to enhance collaboration and knowledge sharing within the community.
+•	Practical, user informed recommendations to improve the usability, clarity, and FAIRness of the workflow.
+
+The session had two exercises: 
+→ Methods familiarity - To build a shared understanding of participants’ experience across key components of the workflow and identify strengths, gaps, and challenges in working with different data collections, programming languages, analytical tools, data formats, and platforms.
+→ Indicator scenarios - Using real-world scenarios that includes a defined ecosystem, purpose, and technical context (e.g., data, platforms, tools, and programming languages), participants have to discuss how they can solve the different steps in the workflow: what can they solve with their own skills, with the help from teammates, with help from (hypothetical) external collaborators, and what is unrealistic, and what kind of resources would be needed (time for training, funds for computing resources, etc). 
+

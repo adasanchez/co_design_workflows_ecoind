@@ -10,37 +10,23 @@ The workflow follows the FAIR principles (Findable, Accessible, Interoperable, R
 
 The primary aims of the workshop are to:
 
-• Understand how users with different disciplinary backgrounds and skill levels interact with each stage of the workflow.
+-   Understand how users with different disciplinary backgrounds and skill levels interact with each stage of the workflow.
 
-• Identify opportunities and barriers across the indicator development process.
+-   Identify opportunities and barriers across the indicator development process.
 
-• Clarify support needs, including documentation, training, troubleshooting, and peer support.
+-   Clarify support needs, including documentation, training, troubleshooting, and peer support.
 
-• Explore ways to strengthen collaboration and knowledge exchange within the user community.
+-   Explore ways to strengthen collaboration and knowledge exchange within the user community.
 
-• Generate concrete, user driven insights to improve the usability, clarity, inclusivity, and FAIRness of the workflow.
+-   Generate concrete, user driven insights to improve the usability, clarity, inclusivity, and FAIRness of the workflow.
 
-### Expected outcomes
+The workshop had two exercises:
 
-The workshop is expected to deliver:
-
-• A clear picture of user needs, pain points, and motivations across disciplines.
-
-• Insights into which workflow stages are intuitive and which are challenging.
-
-• A prioritised set of support mechanisms (e.g. documentation, training, peer exchange, troubleshooting).
-
-• Ideas to enhance collaboration and knowledge sharing within the community.
-
-• Practical, user informed recommendations to improve the usability, clarity, and FAIRness of the workflow.
-
-The session had two exercises:
-
-1.  Methods familiarity: To build a shared understanding of participants’ experience across key components of the workflow and identify strengths, gaps, and challenges in working with different data collections, programming languages, analytical tools, data formats, and platforms.
+1.  **Methods familiarity**: To build a shared understanding of participants’ experience across key components of the workflow and identify strengths, gaps, and challenges in working with different data collections, programming languages, analytical tools, data formats, and platforms.
 
     ![](DataCollection_EIW_FeedbackWorkshops.jpg)
 
-2.  Indicator scenarios: Using real-world scenarios that includes a defined ecosystem, purpose, and technical context (e.g., data, platforms, tools, and programming languages), participants have to discuss how they can solve the different steps in the workflow: what can they solve with their own skills, with the help from teammates, with help from (hypothetical) external collaborators, and what is unrealistic, and what kind of resources would be needed (time for training, funds for computing resources, etc).
+2.  **Indicator scenarios**: Using real-world scenarios that includes a defined ecosystem, purpose, and technical context (e.g., data, platforms, tools, and programming languages), participants have to discuss how they can solve the different steps in the workflow: what can they solve with their own skills, with the help from teammates, with help from (hypothetical) external collaborators, and what is unrealistic, and what kind of resources would be needed (time for training, funds for computing resources, etc).
 
     ![](JourneyScenario3_EIW_FeedbackWorkshops.jpg)
 
@@ -71,7 +57,7 @@ You're all set! :rocket: This repository is now ready for the standard workflow 
 
 ### `/scripts`
 
-`step1_general_pattern.R` : This script is designed to analyse and visualize information collected from workshop participants to better understand who they are and how they engage with tools, data, and platforms. We: 1) characterise participants by summarising their profiles, including career stage, institutional affiliation, ecosystem focus (realm), and application areas; 2) Quantify and visualise participation patterns using percentage-based summaries and clear graphical outputs; 3) Assess familiarity levels with a range of tools, data sources, formats, platforms, and programming languages.
+`step1_general_pattern.R` : This script is designed to analyse and visualize information collected from workshop participants to better understand who they are and how they engage with tools, data, and platforms. We: 1) characterize participants by summarising their profiles, including career stage, institutional affiliation, ecosystem focus (realm), and application areas; 2) Quantify and visualize participation patterns using percentage-based summaries and clear graphical outputs; 3) Assess familiarity levels with a range of tools, data sources, formats, platforms, and programming languages.
 
 `step2_practiceLDA` : This script applies topic modelling techniques to analyse open-text responses from workshop participants, with the goal of uncovering patterns in current data practices, challenges, and capabilities.
 

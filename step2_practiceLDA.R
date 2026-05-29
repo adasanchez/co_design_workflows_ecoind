@@ -15,6 +15,7 @@ library(topicmodels)
 library(RColorBrewer)
 library(quanteda)       # A library for quantitative text analysis
 library(wordcloud)
+library(patchwork)       # To combine ggplots
 
 # 1. Bring the data -----
 practice_data <- read_excel("input/EIW_FeedbackWorkshops_Miro_Content.xls", sheet = 3)
@@ -39,12 +40,20 @@ results <- practice_data |>
     toks <- tokens_select(
       toks,
       c(
-        "a", "are","and", "anymore",
-        "format","also","platform","always","analysis",
+        "a", "are","and", "anymore", "also", "analysis", "always", "australia",
         "be", "can",
         "do","due","data",
-        "etc", "tools", "tool", "rely", "files", "indicator", "ecosystem",
-        "programming", "languages", "language", "us", "yes", "support", "e.g.", "e.g"),
+        "format", "files", "file",
+        "ecosystem", "e.g.", "e.g", "etc",
+        "indicator", 
+        "language",
+        "platform", "programming",
+        "rely", 
+        "support",  "siever",
+        "tools", "tool", 
+        "us",
+        "yes"
+        ),
       selection = "remove"
     )
     
@@ -80,6 +89,15 @@ head(topic_results)
 
 
 # 3. Plot it ------
+ecosystem_palette <- c(
+  "#0B3C5D",  # dark blue
+  "#9FC5E8",  # light blue
+  "#6AA84F",  # green
+  "#F1C232",  # yellow
+  "#E69138"   # orange
+)
+
+
 # Create the basic data frame
 topic_long <- topic_results |>
   pivot_longer(
@@ -92,23 +110,6 @@ topic_long <- topic_results |>
   mutate(rank = row_number()) |>
   ungroup()
   
-# LDA topics by topic and quadrant
-ggplot(topic_long,
-         aes(x = reorder_within(term, -rank, topic),
-             y = -rank,
-             fill = topic)) +
-  geom_col(show.legend = FALSE) +
-  facet_grid(board_name + quadrant ~ topic, scales = "free_y") +
-  coord_flip() +
-  scale_x_reordered() +
-  labs(
-    title = "LDA topics by topic and quadrant",
-    x = NULL,
-    y = "Top terms (ranked)"
-  ) +
-  theme_minimal()
-
-
 # Word cloud by topic and quadrant
 topic_long |>
   group_split(board_name, quadrant) |>
@@ -123,15 +124,30 @@ topic_long |>
     title(paste(unique(df$board_name), "-", unique(df$quadrant)))
   })
 
-
-topic_long |>
-  # plot only top N terms
-  filter(rank <= 2) |>
-  ggplot(aes(x = reorder_within(term, -rank, topic),
-           y = -rank,
-           fill = topic)) +
+# Term frequency plot
+plot_freqterms <- topic_long |>
+  group_by(quadrant) |>
+  count(term) |>
+  filter(n >= 2) |>
+  ggplot(aes(x = reorder_within(term, -n, quadrant),
+             y = -n,
+             fill = quadrant)) +
   geom_col(show.legend = FALSE) +
-  facet_grid(quadrant ~ topic, scales = "free") +
+  facet_wrap(~ quadrant, scales = "free") +
   coord_flip() +
+  labs(
+    y = "Number of times the term is mentioned",
+    x = "Term",
+    title = "Most frequently mentioned terms across learning quadrants",
+    subtitle = "Terms appearing at least twice in participant responses, grouped by familiarity level (from comfort zone to beyond limits)"
+  ) +
   scale_x_reordered() +
-  theme_minimal()
+  scale_fill_manual(values = ecosystem_palette) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 12, hjust = 0, face = "bold"),
+    plot.subtitle = element_text(size = 10, hjust = 0)
+  )
+
+
+ggsave( "output/plot_freqterms.png", plot = plot_freqterms, width = 10, height = 10)

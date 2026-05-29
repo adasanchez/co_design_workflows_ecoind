@@ -230,17 +230,21 @@ my_familiarity |>
   ) +
   facet_wrap(~item_tidy) +
   scale_fill_manual(values = ecosystem_palette2) +
-  coord_fixed() +
+  coord_fixed(clip = "off") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
   theme_void() +
   labs(x = "Percentage", y = NULL, fill = "Familiarity",
        title = "How familiar are participants with different analytical tools?" ,
-       subtitle = "Each panel shows the distribution of responses across learning zones for a given tool. Ring thickness represents the relative share of responses within each tool.") +
+       subtitle = "Each panel shows the distribution of responses across learning zones for a given tool.\nRing thickness represents the relative share of responses within each tool.") +
   theme(
-    plot.title = element_text(size = 12, hjust = 0, face = "bold"),
-    plot.subtitle = element_text(size = 10, hjust = 0)
+    #panel.spacing = unit(0.5, "lines"),
+    #plot.margin = margin(t = 10, r = 10, b = 10, l = 5),
+    plot.title = element_text(size = 12, hjust = 0, face = "bold", margin = margin(b = 6)),
+    plot.subtitle = element_text(size = 10, hjust = 0, margin = margin(b = 10))
   )
 
-ggsave("output/plot_familiarity_analytical_tool.png", width = 20, height = 10)
+ggsave("output/plot_familiarity_analytical_tool.png", width = 7, height = 10)
 
 ### Data collections ----
 my_familiarity |>
@@ -272,19 +276,22 @@ my_familiarity |>
     ),
     color = "grey95", linewidth = 0.6
   ) +
+  coord_fixed(clip = "off") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
   facet_wrap(~item_tidy) +
   scale_fill_manual(values = ecosystem_palette2) +
   coord_fixed() +
   theme_void() +
   labs(x = "Percentage", y = NULL, fill = "Familiarity",
        title = "How familiar are participants with different data collections?" ,
-       subtitle = "Each panel shows the distribution of responses across learning zones for a given data collection. Ring thickness represents the relative share of responses within each collection.") +
+       subtitle = "Each panel shows the distribution of responses across learning zones for a given data collection.\nRing thickness represents the relative share of responses within each collection.") +
   theme(
-    plot.title = element_text(size = 12, hjust = 0, face = "bold"),
-    plot.subtitle = element_text(size = 10, hjust = 0)
+    plot.title = element_text(size = 12, hjust = 0, face = "bold", margin = margin(b = 6)),
+    plot.subtitle = element_text(size = 10, hjust = 0, margin = margin(b = 10))
   )
 
-ggsave("output/plot_familiarity_data_collections.png", width = 20, height = 10)
+ggsave("output/plot_familiarity_data_collections.png", width = 7, height = 10)
 
 
 ### Data formats -----

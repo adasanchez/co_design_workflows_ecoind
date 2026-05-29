@@ -10,19 +10,26 @@
 # 0. Call packages and functions ----
 library(tidyverse)       # To manipulate data and plotting
 library(readxl)          # For reading data in Excel format
-library(tidytext)
 library(topicmodels)
 library(RColorBrewer)
 library(quanteda)       # A library for quantitative text analysis
-library(wordcloud)
-library(patchwork)       # To combine ggplots
+library(wordcloud)      # To create word cloud plots
+library(tidytext)
 
 # 1. Bring the data -----
 practice_data <- read_excel("input/EIW_FeedbackWorkshops_Miro_Content.xls", sheet = 3)
 str(practice_data) 
 
 # 2. Topic model ----
+# Tokenization (lexical analysis) is the process of splitting a text into tokens
+# (i.e. convert the text into smaller, more specific text features, such as words or word combinations)
+# There are many ways to tokenize text (by sentence, by word, or by line). 
+# For our data, we tokenized by words.
+# Notice that we remove punctuation and numbers along the way.
+# First check if there are duplicate presentations by checking for pres_id
+
 results <- practice_data |>
+  # Let's do the analysis by topic (board name) and quadrant
   split(list(practice_data$board_name, practice_data$quadrant)) |>
   map(~ {
     
@@ -57,8 +64,8 @@ results <- practice_data |>
       selection = "remove"
     )
     
-    # Create bigrams (or unique words in this case)
-    toks_bigram <- tokens_ngrams(toks, n = 1)
+    # Create bigrams (or unique words as you whish)
+    toks_bigram <- tokens_ngrams(toks, n = 2)
     
     # Create dfm
     dfm_mat <- dfm(toks_bigram) |>
@@ -87,7 +94,6 @@ topic_results <- bind_rows(results, .id = "group_id")
 
 head(topic_results)
 
-
 # 3. Plot it ------
 ecosystem_palette <- c(
   "#0B3C5D",  # dark blue
@@ -110,22 +116,8 @@ topic_long <- topic_results |>
   mutate(rank = row_number()) |>
   ungroup()
   
-# Word cloud by topic and quadrant
-topic_long |>
-  group_split(board_name, quadrant) |>
-  walk(~ {
-    df <- .x
-    wordcloud(
-      words = df$term,
-      freq = rev(seq_along(df$term)),  # rank-based weight
-      max.words = 50,
-      colors = RColorBrewer::brewer.pal(8, "Dark2")
-    )
-    title(paste(unique(df$board_name), "-", unique(df$quadrant)))
-  })
-
 # Term frequency plot
-plot_freqterms <- topic_long |>
+topic_long |>
   group_by(quadrant) |>
   count(term) |>
   filter(n >= 2) |>
@@ -149,5 +141,19 @@ plot_freqterms <- topic_long |>
     plot.subtitle = element_text(size = 10, hjust = 0)
   )
 
+ggsave("output/plot_freqterms.png", width = 20, height = 20)
 
-ggsave( "output/plot_freqterms.png", plot = plot_freqterms, width = 10, height = 10)
+# Word cloud by topic and quadrant
+topic_long |>
+  group_split(board_name, quadrant) |>
+  walk(~ {
+    df <- .x
+    wordcloud(
+      words = df$term,
+      freq = rev(seq_along(df$term)),  # rank-based weight
+      max.words = 50,
+      colors = RColorBrewer::brewer.pal(8, "Dark2")
+    )
+    title(paste(unique(df$board_name), "-", unique(df$quadrant)))
+  })
+

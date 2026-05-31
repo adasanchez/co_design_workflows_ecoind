@@ -111,10 +111,11 @@ my_familiarity <-familiarity |>
   # Tidy up a little bit the items mentioned by participants
   mutate(item_tidy = case_when(
     item %in% c("Multi-nat imagery providers (e.g. ESA, USGS, JAXA, etc.)",
-                "SA Enviro Data", "ebird", "BOM Data", "Q-spatial",
+                "ebird", "BOM Data", "Q-spatial",
                 "other_ARDC Nectar Research Cloud", "other_AODN",
                 "other_Research Data Australia", 
                 "CLoud Optimised formats (Zarr, Parquet)") ~ "Other",
+    item %in% c("SEED NSW", "The LIST", "SA Enviro Data") ~ "Regional",
     TRUE ~ item
     
   )) |>
@@ -164,30 +165,88 @@ my_familiarity <-familiarity |>
 
 head(my_familiarity)
 
-## 3.2 Bar plot ----
-plot_familiarity <- my_familiarity |>
-  ggplot(aes(x = percent, y = reorder(item_tidy, percent), fill = boad_name)) +
-  geom_col() + 
-  scale_fill_manual(values = c(
-    "Analytical tools" = "#6FA8DC",
-    "Data collections" = "#2F5D7C",
-    "Data formats" = "#6AA84F",
-    "Platforms" = "#F1C232",
-    "Programming languages" = "#E69138"
-  )) +
-  geom_text(aes(label = paste0(percent, "%")), hjust = -0.2) +
-  facet_grid(boad_name ~ quadrant, scales = "free_y") +
-  scale_x_continuous(expand = expansion(mult = c(0, 0.2))) +
-  labs(x = "Percentage", y = NULL, fill = "Topics",
-       title = "Participant familiarity with tools, data, and platforms across four learning quadrants (comfort zone to beyond limits).",
-       subtitle = "Bars show the percentage of responses for each item within a topic, distributed across quadrants. Panels highlight how familiarity with each item shifts from comfort to beyond limits across topics.") +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 12, hjust = 0, face = "bold"),
-    plot.subtitle = element_text(size = 10, hjust = 0)
-  )
+## 3.2 Labels ----
+# Generate labels with the number of times a given item was mentioned in the Miro board
+labels_languages <- my_familiarity |>
+  filter(boad_name == "Programming languages") |>
+  filter(n != 1) |>
+  group_by(item_tidy, quadrant) |>
+  summarise(
+    percent = sum(percent, na.rm = TRUE),
+    n = sum(n, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  group_by(item_tidy) |>
+  # total mentions per item
+  mutate(
+    total_n = sum(n) 
+  ) |>
+  distinct(item_tidy, total_n)
 
-ggsave("output/plot_familiarity.png", width = 20, height = 10)
+labels_platforms <- my_familiarity |>
+  filter(boad_name == "Platforms") |>
+  filter(n != 1) |>
+  group_by(item_tidy, quadrant) |>
+  summarise(
+    percent = sum(percent, na.rm = TRUE),
+    n = sum(n, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  group_by(item_tidy) |>
+  # total mentions per item
+  mutate(
+    total_n = sum(n) 
+  ) |>
+  distinct(item_tidy, total_n)
+
+labels_formats <- my_familiarity |>
+  filter(boad_name == "Data formats") |>
+  filter(n != 1) |>
+  group_by(item_tidy, quadrant) |>
+  summarise(
+    percent = sum(percent, na.rm = TRUE),
+    n = sum(n, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  group_by(item_tidy) |>
+  # total mentions per item
+  mutate(
+    total_n = sum(n) 
+  ) |>
+  distinct(item_tidy, total_n)
+
+labels_collections <- my_familiarity |>
+  filter(boad_name == "Data collections") |>
+  filter(n != 1) |>
+  group_by(item_tidy, quadrant) |>
+  summarise(
+    percent = sum(percent, na.rm = TRUE),
+    n = sum(n, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  group_by(item_tidy) |>
+  # total mentions per item
+  mutate(
+    total_n = sum(n) 
+  ) |>
+  distinct(item_tidy, total_n)
+
+
+labels_tool <- my_familiarity |>
+  filter(boad_name == "Analytical tools") |>
+  filter(n != 1) |>
+  group_by(item_tidy, quadrant) |>
+  summarise(
+    percent = sum(percent, na.rm = TRUE),
+    n = sum(n, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  group_by(item_tidy) |>
+  # otal mentions per item
+  mutate(
+    total_n = sum(n) 
+  ) |>
+  distinct(item_tidy, total_n)
 
 
 ## 3.3 Half circle -----
@@ -234,6 +293,17 @@ my_familiarity |>
   scale_x_continuous(expand = c(0, 0)) +
   scale_y_continuous(expand = c(0, 0)) +
   theme_void() +
+  geom_text(
+    data = labels_tool,
+    aes(
+      x = 0,
+      # slightly above the outer ring
+      y = 1.15,   
+      label = paste0("n = ", total_n)
+    ),
+    size = 3,
+    fontface = "italic"
+  ) +
   labs(x = "Percentage", y = NULL, fill = "Familiarity",
        title = "How familiar are participants with different analytical tools?" ,
        subtitle = "Each panel shows the distribution of responses across learning zones for a given tool.\nRing thickness represents the relative share of responses within each tool.") +
@@ -247,6 +317,7 @@ my_familiarity |>
 ggsave("output/plot_familiarity_analytical_tool.png", width = 7, height = 10)
 
 ### Data collections ----
+
 my_familiarity |>
   filter(boad_name == "Data collections") |>
   filter(n != 1) |>
@@ -281,8 +352,18 @@ my_familiarity |>
   scale_y_continuous(expand = c(0, 0)) +
   facet_wrap(~item_tidy) +
   scale_fill_manual(values = ecosystem_palette2) +
-  coord_fixed() +
   theme_void() +
+  geom_text(
+    data = labels_collections,
+    aes(
+      x = 0,
+      # slightly above the outer ring
+      y = 1.15,   
+      label = paste0("n = ", total_n)
+    ),
+    size = 3,
+    fontface = "italic"
+  ) +
   labs(x = "Percentage", y = NULL, fill = "Familiarity",
        title = "How familiar are participants with different data collections?" ,
        subtitle = "Each panel shows the distribution of responses across learning zones for a given data collection.\nRing thickness represents the relative share of responses within each collection.") +
@@ -326,17 +407,30 @@ my_familiarity |>
   ) +
   facet_wrap(~item_tidy) +
   scale_fill_manual(values = ecosystem_palette2) +
-  coord_fixed() +
+  coord_fixed(clip = "off") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_text(
+    data = labels_formats,
+    aes(
+      x = 0,
+      # slightly above the outer ring
+      y = 1.15,   
+      label = paste0("n = ", total_n)
+    ),
+    size = 3,
+    fontface = "italic"
+  ) +
   theme_void() +
   labs(x = "Percentage", y = NULL, fill = "Familiarity",
        title = "How familiar are participants with different data formats?" ,
-       subtitle = "Each panel shows the distribution of responses across learning zones for a given data format. Ring thickness represents the relative share of responses within each format.") +
+       subtitle = "Each panel shows the distribution of responses across learning zones for a given data format.\nRing thickness represents the relative share of responses within each format.") +
   theme(
-    plot.title = element_text(size = 12, hjust = 0, face = "bold"),
-    plot.subtitle = element_text(size = 10, hjust = 0)
+    plot.title = element_text(size = 12, hjust = 0, face = "bold", margin = margin(b = 6)),
+    plot.subtitle = element_text(size = 10, hjust = 0, margin = margin(b = 10))
   )
 
-ggsave("output/plot_familiarity_data_format.png", width = 20, height = 10)
+ggsave("output/plot_familiarity_data_format.png", width = 7, height = 10)
 
 ### Platforms -----
 my_familiarity |>
@@ -370,17 +464,30 @@ my_familiarity |>
   ) +
   facet_wrap(~item_tidy) +
   scale_fill_manual(values = ecosystem_palette2) +
-  coord_fixed() +
+  coord_fixed(clip = "off") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_text(
+    data = labels_platforms,
+    aes(
+      x = 0,
+      # slightly above the outer ring
+      y = 1.15,   
+      label = paste0("n = ", total_n)
+    ),
+    size = 3,
+    fontface = "italic"
+  ) +
   theme_void() +
   labs(x = "Percentage", y = NULL, fill = "Familiarity",
        title = "How familiar are participants with different platforms?" ,
-       subtitle = "Each panel shows the distribution of responses across learning zones for a given platform. Ring thickness represents the relative share of responses within each platform.") +
+       subtitle = "Each panel shows the distribution of responses across learning zones for a given platform.\nRing thickness represents the relative share of responses within each platform.") +
   theme(
-    plot.title = element_text(size = 12, hjust = 0, face = "bold"),
-    plot.subtitle = element_text(size = 10, hjust = 0)
+    plot.title = element_text(size = 12, hjust = 0, face = "bold", margin = margin(b = 6)),
+    plot.subtitle = element_text(size = 10, hjust = 0, margin = margin(b = 10))
   )
 
-ggsave("output/plot_familiarity_platform.png", width = 20, height = 10)
+ggsave("output/plot_familiarity_platform.png", width = 7, height = 10)
 
 ### Programming languages -----
 my_familiarity |>
@@ -414,17 +521,30 @@ my_familiarity |>
   ) +
   facet_wrap(~item_tidy) +
   scale_fill_manual(values = ecosystem_palette2) +
-  coord_fixed() +
+  coord_fixed(clip = "off") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
   theme_void() +
+  geom_text(
+    data = labels_languages,
+    aes(
+      x = 0,
+      # slightly above the outer ring
+      y = 1.15,   
+      label = paste0("n = ", total_n)
+    ),
+    size = 3,
+    fontface = "italic"
+  ) +
   labs(x = "Percentage", y = NULL, fill = "Familiarity",
        title = "How familiar are participants with different programming languages?" ,
-       subtitle = "Each panel shows the distribution of responses across learning zones for a given languages. Ring thickness represents the relative share of responses within each language.") +
+       subtitle = "Each panel shows the distribution of responses across learning zones for a given languages.\nRing thickness represents the relative share of responses within each language.") +
   theme(
-    plot.title = element_text(size = 12, hjust = 0, face = "bold"),
-    plot.subtitle = element_text(size = 10, hjust = 0)
+    plot.title = element_text(size = 12, hjust = 0, face = "bold", margin = margin(b = 6)),
+    plot.subtitle = element_text(size = 10, hjust = 0, margin = margin(b = 10))
   )
 
-ggsave("output/plot_familiarity_programming_languages.png", width = 20, height = 10)
+ggsave("output/plot_familiarity_programming_languages.png", width = 7, height = 10)
 
 
 # Develop a two year workflow development roadmap that will identify

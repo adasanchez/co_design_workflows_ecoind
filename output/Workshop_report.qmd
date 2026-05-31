@@ -6,30 +6,60 @@ editor: visual
 
 # Familiarity
 
-### Analytical tools
+In this context, “n” represents the number of responses (or mentions) for each tool—in other words, how many participants reported their familiarity with that specific item. A higher *n* (e.g., QGIS with *n = 10*) means more participants contributed responses, so the distribution is more reliable and representative. A lower *n* (e.g., Markdown with *n = 5*) means the result is based on fewer responses and should be interpreted more cautiously.
 
-Participants demonstrate strong familiarity with a small set of core tools, particularly RStudio, QGIS, and to a slightly lesser extent ArcGIS and Google Earth, where most responses fall within the comfort and learning zones. This indicates these tools are well established and can serve as the foundation of current workflows. In contrast, tools such as Markdown occupy an intermediate position, with responses concentrated in the learning and stretching zones, suggesting they are known but not yet fully integrated into everyday use. Finally, tools like Kepler, MapInfo, and Quarto exhibit very low familiarity, with most responses in the stretching or beyond limits zones, indicating limited adoption and potential barriers to use.
+When a tool shows strong familiarity *and* has a high *n*, you can be confident that the tool is widely used and well understood. When a tool shows low familiarity but has a small *n*, it might represent a niche tool rather than a general gap
+
+## Analytical tools
+
+Participants demonstrate strong familiarity with a small set of core tools, particularly RStudio, QGIS, and to a slightly lesser extent ArcGIS and Google Earth, where most responses fall within the comfort and learning zones. This indicates these tools are well established and can serve as the foundation of current workflows.
+
+In contrast, tools such as Markdown occupy an intermediate position, with responses concentrated in the learning and stretching zones, suggesting they are known but not yet fully integrated into everyday use.
+
+Finally, tools like Kepler, MapInfo, and Quarto exhibit very low familiarity, with most responses in the stretching or beyond limits zones, indicating limited adoption and potential barriers to use.
 
 ![](plot_familiarity_analytical_tool.png){fig-align="center" width="400"}
 
-Efforts should prioritize:
+## Data collections
 
--   Strengthening advanced capabilities in already familiar tools, including automation, performance, advanced spatial analysis, incentive best-practice, and peer sharing.
+Participants appear to be familiar with a wide range of data sources, including climate (BOM), citizen science (eBird), marine data (AODN) and national research infrastructure (Research Data Australia, Find Environmental Data), where the majority of responses fall in the comfort zone, indicating strong familiarity and routine use.
 
--   Providing targeted training and practical resources (e.g. practical use cases, templates, and examples) to move intermediate tools into the comfort zone.
+Regional data collections such SEED (from NSW), The LIST (Tasmania), Enviro Data (South Australia) are concentrated in the stretching and beyond limits zones, indicating that many participants either have minimal exposure or find them difficult to use.
 
--   Carefully evaluating whether low-familiarity tools should be supported through introductory training or replaced with more widely adopted alternatives to reduce complexity and improve overall efficiency.
-
-### Data collections
-
-Participants appear most comfortable with sources such as Environment-related datasets and “Other” (Research Data Australia, AODN, ebird, CLoud Optimised formats (Zarr, Parquet), SA Enviro Data, BOM Data, Q-spatial), where the majority of responses fall in the comfort zone, indicating strong familiarity and routine use.
-
-In contrast, sources such as CSIRO Data Explorer, TERN, and other national infrastructures show a dominance of the learning zone, suggesting awareness but limited practical experience. Finally, platforms like SEED NSW, IMOS, The LIST, and some specialised portals are concentrated in the stretching and beyond limits zones, indicating that many participants either have minimal exposure or find them difficult to use.
+In contrast, sources such as CSIRO Data Explorer, TERN, and other national infrastructures show a dominance of the learning zone, suggesting awareness but limited practical experience.
 
 ![](plot_familiarity_data_collections.png){fig-align="center" width="400"}
 
-For data collections with low familiarity (e.g., SEED NSW, IMOS, The LIST). before investing heavily in training, it is important to assess:
+Participants rely heavily on a core set of familiar data sources, while many specialised platforms remain underutilised. The most effective strategy is not to train on everything, but to prioritise key platforms, support gradual skill development where adoption is feasible, and simplify the overall data ecosystem where possible. For data collections with low familiarity (e.g., SEED, IMOS, The LIST), before investing heavily in training, it is important to assess whether these platforms are critical to organisational or regional goals or whether they duplicate functionality available in more familiar tool.
 
-Whether these platforms are **critical** to organisational goals. Whether they **duplicate functionality** available in more familiar tool. If a tool is not essential, consider: **Streamlining the ecosystem** by prioritising fewer, widely adopted sources. Encouraging use of more familiar alternatives to reduce complexity
+## Data formats
 
-Participants rely heavily on a **core set of familiar data sources**, while many specialised platforms remain underutilised. The most effective strategy is not to train on everything, but to **prioritise key platforms, support gradual skill development where adoption is feasible, and simplify the overall data ecosystem where possible**.
+Participants are most familiar with traditional and widely used data formats, particularly Shapefiles, which show a strong concentration in the comfort zone, suggesting they are well established in everyday workflows.
+
+Formats such as R data files (.rda), GeoPackage (GPKG), GeoTIFF, and standard data sheets show a predominance of responses in the learning zone, indicating that participants are generally aware of and use these formats but may not feel fully confident working with them in more advanced contexts.
+
+In contrast, more specialised or modern formats, such as DataCube/DEA and cloud-optimised structures, are largely concentrated in the stretching and beyond limits zones, suggesting limited familiarity and potential barriers to adoption.
+
+![](plot_familiarity_data_format.png){fig-align="center" width="400"}
+
+It is important to assess whether all advanced formats are necessary for all the workflows. Where possible, workflow development should prioritise a smaller set of well-supported formats to reduce complexity and improve efficiency, while introducing newer formats gradually through guided use cases. A balanced approach, combining capacity building, and clear guidance, will help improve adoption of newer, more scalable data formats without overwhelming users.
+
+## Platforms
+
+Participants’ familiarity with the initial set of platforms proposed was generally low and uneven, with only a few exceptions. Most platforms, such as CoDesign, Digital Earth Australia, Data Commons, GADI, and Argo/Xarray, were dominated by responses in the stretching and beyond limits zones, indicating that participants have limited experience and may perceive these platforms as complex or difficult to use.
+
+A smaller group of platforms, such as Google Earth Engine, shows a stronger presence in the learning and comfort zones, suggesting moderate familiarity and some level of active use. Additionally, the “Other” category (ARDC Nectar Research Cloud, Research Data Australia) stands out with a strong concentration in the comfort zone, indicating that participants rely on a diverse set of alternative or external platforms with which they are already confident. This suggests that while specialised platforms exist, users often depend on tools outside the predefined list that better fit their workflows or are more accessible.
+
+![](plot_familiarity_platform.png){fig-align="center" width="400"}
+
+## Programming languages
+
+Participants showed the strongest familiarity with R, which stands out as the only language dominated by responses in the comfort zone, indicating confident and regular use. This suggests that R is the primary programming language currently embedded in participants’ workflows.
+
+In contrast, languages such as Python and Bash are concentrated mostly in the learning zone, indicating that participants are aware of them and may use them occasionally but do not yet feel fully confident. These languages appear to be in a transitional stage, with potential for further development.
+
+Most other languages, including C/C++, JavaScript, Julia, and Zsh, are overwhelmingly concentrated in the beyond limits zone, with little to no representation in the comfort zone. This indicates very low familiarity and minimal practical use among participants, suggesting that these tools are either highly specialised or not aligned with current needs.
+
+It is also worth noting that the number of responses (n) is relatively small for several languages (e.g., *n = 3–4* for Bash, Julia, Zsh), indicating that the results for these tools should be interpreted cautiously, as they may reflect niche use rather than broader trends.
+
+![](plot_familiarity_programming_languages.png){fig-align="center" width="400"}
